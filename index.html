@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>COMP3130 App Store — S1 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0f14;
+      --surface: #13161d;
+      --border: #1e2330;
+      --accent: #c8a84b;
+      --accent2: #e05c3a;
+      --text: #e8eaf0;
+      --muted: #6b7280;
+      --card-bg: #161921;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 2.5rem 2rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: -60px; left: -60px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(200,168,75,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; right: 10%;
+      width: 250px; height: 250px;
+      background: radial-gradient(circle, rgba(224,92,58,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .header-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .header-meta {
+      margin-top: 0.75rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .controls {
+      padding: 1.5rem 2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(13,15,20,0.95);
+      backdrop-filter: blur(8px);
+      z-index: 10;
+    }
+
+    .search-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+      max-width: 400px;
+    }
+
+    .search-wrap svg {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.6rem 0.75rem 0.6rem 2.25rem;
+      border-radius: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    input[type="text"]:focus { border-color: var(--accent); }
+    input[type="text"]::placeholder { color: var(--muted); }
+
+    .filter-btns {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .filter-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #000; font-weight: 500; }
+
+    .stats {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-left: auto;
+      white-space: nowrap;
+    }
+
+    .stats span { color: var(--accent); }
+
+    main {
+      padding: 1.5rem 2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead th {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: left;
+      padding: 0 1rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    thead th:first-child { padding-left: 0; width: 2.5rem; }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.1s;
+      animation: fadeIn 0.3s ease both;
+    }
+
+    tbody tr:hover { background: var(--card-bg); }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    td {
+      padding: 0.9rem 1rem;
+      font-size: 0.875rem;
+      vertical-align: middle;
+    }
+
+    td:first-child {
+      padding-left: 0;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      width: 2.5rem;
+    }
+
+    .app-name {
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .owner-name { color: var(--text); }
+    .owner-email {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+    }
+
+    .apk-yes {
+      display: inline-block;
+      background: rgba(74,188,120,0.12);
+      color: #4abc78;
+      border: 1px solid rgba(74,188,120,0.25);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.05em;
+    }
+
+    .apk-no {
+      display: inline-block;
+      background: rgba(224,92,58,0.1);
+      color: var(--accent2);
+      border: 1px solid rgba(224,92,58,0.2);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.05em;
+    }
+
+    .id-cell {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .copy-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      cursor: pointer;
+      margin-left: 0.4rem;
+      transition: all 0.15s;
+    }
+
+    .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .copy-btn.copied { border-color: #4abc78; color: #4abc78; }
+
+    .repo-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+    }
+
+    .repo-link:hover { text-decoration: underline; }
+
+    .no-results {
+      text-align: center;
+      padding: 4rem;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-label">Macquarie University · COMP3130 · S1 2026</div>
+    <h1>App <span>Store</span></h1>
+    <div class="header-meta">Generated 25 May 2026 02:00 · 73 submissions</div>
+  </header>
+
+  <div class="controls">
+    <div class="search-wrap">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input type="text" id="search" placeholder="Search by name, owner, email..." />
+    </div>
+    <div class="filter-btns">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="apk">APK Only</button>
+      <button class="filter-btn" data-filter="no-apk">No APK</button>
+    </div>
+    <div class="stats">Showing <span id="count">73</span> of 73</div>
+  </div>
+
+  <main>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>App Name</th>
+          <th>Owner</th>
+          <th>APK</th>
+          <th>Listing</th>
+          <th>Repo</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+    <div class="no-results" id="no-results" style="display:none">No apps match your search.</div>
+  </main>
+
+  <footer>COMP3130 Mobile Application Development · Macquarie University</footer>
+
+  <script>
+    const APPS = [
+  {
+    "name": "CarFlip",
+    "owner": "Ahnaf Ahmed Samin",
+    "email": "ahnafahmed.samin@students.mq.edu.au",
+    "id": "6a12f2aa112a5a5a390213ff",
+    "slug": "pig-footed-bandicoot",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-axnafsamin.git",
+    "description": "CarFlip lets you sell your car in minutes. Enter your car's details, snap a few photos, and get an instant valuation. If you're happy with the price, submit it for review and get paid. You can also br"
+  },
+  {
+    "name": "Subtracked",
+    "owner": "Andre Sampana",
+    "email": "andre.sampana@students.mq.edu.au",
+    "id": "6a128821112a5a5a3902005a",
+    "slug": "southern-brown-bandicoot",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-anndremq.git",
+    "description": "**SubTracked** makes it easy to keep on top of all your recurring subscriptions in one clean, simple app. Add your subscriptions, set your billing cycle, and **SubTracked** will track your due dates a"
+  },
+  {
+    "name": "Campus Bazaar",
+    "owner": "Andrey Yermolenko",
+    "email": "andrey.yermolenko@students.mq.edu.au",
+    "id": "6a1263df112a5a5a3901fd0f",
+    "slug": "lord-howe-red-crowned-parakeet",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-AndreyMQU",
+    "description": "Campus Bazaar is a student only marketplace for buying and selling second hand goods on campus. Browse listings posted by fellow students, search by title, description or category, and post your own i"
+  },
+  {
+    "name": "Mentora",
+    "owner": "Angus Muma",
+    "email": "angus.muma@students.mq.edu.au",
+    "id": "6a114589112a5a5a3901f1f4",
+    "slug": "broad-billed-prion",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-AngusM1020.git",
+    "description": "Mentora is a marketplace for tutoring. Whether you're a Year 12 student cramming for the HSC, a uni student needing help with calculus, or an adult learner picking up a new language, you can find some"
+  },
+  {
+    "name": "CampusSwap",
+    "owner": "Anthony Purkiss",
+    "email": "anthony.purkiss@students.mq.edu.au",
+    "id": "6a12ee2d112a5a5a39021159",
+    "slug": "black-eared-flying-fox",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-AnthonyPurkiss",
+    "description": "CampusSwap is a marketplace application designed to help university students and staff exchange second-hand items in a quick and convenient way. Users can create accounts, log in securely, browse list"
+  },
+  {
+    "name": "ID Remember",
+    "owner": "Anton Millar",
+    "email": "anton.millar1@students.mq.edu.au",
+    "id": "6a12af45112a5a5a3902076b",
+    "slug": "carpentarian-dunnart",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-Anton-Millar",
+    "description": "ID Remember is a university app to help a user remember important information regarding their university work.\n\n\n\n\nThe App is a general use university help app. It will have the user's ID information "
+  },
+  {
+    "name": "SceneSwap",
+    "owner": "Arjun Sankar Hariharasuthan",
+    "email": "arjun.hariharasuthan@students.mq.edu.au",
+    "id": "6a122e58112a5a5a3901fa86",
+    "slug": "bilby",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-ArjunH-creator.git",
+    "description": "**SceneSwap** is a creative companion for filmmakers, directors, and content creators. Capture scene ideas, save filming locations, and organise inspiration using a secure cloud-based platform. Users "
+  },
+  {
+    "name": "Overclocked",
+    "owner": "Avijya Shrestha",
+    "email": "avijya.shrestha@students.mq.edu.au",
+    "id": "6a12f10f112a5a5a390212d1",
+    "slug": "christmas-island-frigatebird",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-up-the-hill",
+    "description": "A flutter app to get coffee from the brand new cafe on campus: Overclocked. Only high caffeine options available. Get your daily fix from Overclocked!"
+  },
+  {
+    "name": "Game Collector",
+    "owner": "Brendan Bone",
+    "email": "brendan.bone@students.mq.edu.au",
+    "id": "6a125ba8112a5a5a3901fc2f",
+    "slug": "wilsons-phalarope",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-Jocondev",
+    "description": "The app is a personal gaming collection manager that allows users to create an account and log in through Firebase Authentication. Once logged in, users can manage two collections \u2014 games and consoles"
+  },
+  {
+    "name": "MQStarterHub",
+    "owner": "Cam Hao Ha",
+    "email": "camhao.ha@students.mq.edu.au",
+    "id": "6a0eb8fa112a5a5a3901e17b",
+    "slug": "red-necked-stint",
+    "hasApk": false,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-CamHaoHa.git",
+    "description": "For Engineering students who want practical project experience outside their usual class groups. Students can create a profile, show their discipline and skills, post project ideas, browse teammates, "
+  },
+  {
+    "name": "MQ-Exchange",
+    "owner": "Carl Del Monte",
+    "email": "carl.delmonte@students.mq.edu.au",
+    "id": "6a0ef9ee112a5a5a3901e473",
+    "slug": "beccaris-free-tailed-bat",
+    "hasApk": false,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-WoofWoofAlpha.git",
+    "description": "MQ Exchange is a Flutter marketplace application developed specifically for Macquarie University students. The purpose of the application is to provide students with a safer, simpler, and more conveni"
+  },
+  {
+    "name": "Cupcake Delight",
+    "owner": "Chui Lin Luk",
+    "email": "chuilin.luk@students.mq.edu.au",
+    "id": "6a116a7b112a5a5a3901f2d8",
+    "slug": "tasmanian-pademelon",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-CHUILINLUK",
+    "description": "\u201cSweet treats for every party and event \u2014 just a few clicks\u201d"
+  },
+  {
+    "name": "Car Logbook",
+    "owner": "Daniel Alldritt",
+    "email": "daniel.alldritt@students.mq.edu.au",
+    "id": "6a104734112a5a5a3901ee19",
+    "slug": "dark-sided-flycatcher",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-TheJeenyuhs",
+    "description": "***Car Logbook*** is a simple app for tracking your car trips. Take a photo of your odometer, record where you started and finished, tag the trip as *Work, Personal or Practice*, and end it when you a"
+  },
+  {
+    "name": "Student Trading App",
+    "owner": "David Hayman",
+    "email": "david.hayman@students.mq.edu.au",
+    "id": "6a127a39112a5a5a3901ff15",
+    "slug": "great-cormorant",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-DavidHayman.git",
+    "description": "This application is designed for a specific goal which is to provide a service that allows users to post photos of items and create a trade open to all users on the application, other users will be ab"
+  },
+  {
+    "name": "UniDrop",
+    "owner": "Diem Quynh Pham",
+    "email": "diemquynh.pham@students.mq.edu.au",
+    "id": "6a0ff600112a5a5a3901e8d3",
+    "slug": "minnivale-trapdoor-spider",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-diempha.git",
+    "description": "**UniDrop** is your campus drop zone \u2014 a fast, simple marketplace built for university students. Got stuff you no longer need? Drop it. Looking for something? Find it nearby. List items with a photo a"
+  },
+  {
+    "name": "Campus Market",
+    "owner": "EDWIN CHUNG",
+    "email": "edwin.chung@students.mq.edu.au",
+    "id": "6a130cb7112a5a5a39021d70",
+    "slug": "eastern-horseshoe-bat",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-edwinc-dev",
+    "description": "Campus Market is a Flutter-based mobile application designed to simulate a lightweight campus marketplace platform. The app allows users to create, browse, update, and delete marketplace listings thro"
+  },
+  {
+    "name": "BookSwap",
+    "owner": "Elvyn Mudaliar",
+    "email": "elvyn.mudaliar@students.mq.edu.au",
+    "id": "6a0abb4c112a5a5a3901cd02",
+    "slug": "flame-robin",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-cybermonkey123",
+    "description": "If you've ever paid full price at the campus bookshop only to sell it back for nothing at the end of semester, BookSwap was built for you. It's a mobile app that connects uni students who want to offl"
+  },
+  {
+    "name": "MQ Market Place",
+    "owner": "Ethan Almonte",
+    "email": "ethan.almonte@students.mq.edu.au",
+    "id": "6a1293da112a5a5a3902023d",
+    "slug": "brown-thornbill",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-Almonte5.git",
+    "description": "MQ Marketplace is a buy, sell, and swap app built exclusively for the Macquarie University campus community. Students and staff can list textbooks, electronics, and clothing items for sale, browse wha"
+  },
+  {
+    "name": "MQ Marketplace",
+    "owner": "Fahmida Alam",
+    "email": "fahmida.alam@students.mq.edu.au",
+    "id": "6a0dad24112a5a5a3901dcd6",
+    "slug": "rosy-starling",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-fahmida-alam.git",
+    "description": "**MQ Marketplace** is a **Flutter-based marketplace application** designed specifically for the Macquarie University community. The app allows **students and staff** to **buy and sell** useful **campu"
+  },
+  {
+    "name": "Clash Base",
+    "owner": "Hartley Bergan",
+    "email": "hartley.bergan@students.mq.edu.au",
+    "id": "6a0b34b3112a5a5a3901cf5d",
+    "slug": "pied-monarch",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-HartleyB04",
+    "description": "**Clash Base**\u00a0is a community platform for Clash of Clans players to discover, share, and save base layouts.\n\nFinding a good base usually means going through Reddit threads or YouTube videos. Clash Ba"
+  },
+  {
+    "name": "RepRack",
+    "owner": "Hayden Brown",
+    "email": "hayden.brown2@students.mq.edu.au",
+    "id": "6a12f31d112a5a5a39021455",
+    "slug": "yellow-plumed-honeyeater",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-Haydenb9",
+    "description": "RepRack is a Flutter marketplace app for students and gym users who want to buy and sell second-hand gym gear on campus.\n\n\n\nUsers can sign up, log in, browse listings, create their own listings, add a"
+  },
+  {
+    "name": "Campus Market",
+    "owner": "Huu Tien Tran",
+    "email": "huutien.tran@students.mq.edu.au",
+    "id": "6a1282cc112a5a5a3901ffd2",
+    "slug": "little-shearwater",
+    "hasApk": true,
+    "repo": "https://github.com/ZaneTran05/comp3130-campus-market.git",
+    "description": "Campus Market is a marketplace app for Macquarie University students and staff to buy and sell campus-related items such as textbooks, electronics, stationery, clothing, and other student essentials.\n"
+  },
+  {
+    "name": "Flying Turtle",
+    "owner": "James Wealth",
+    "email": "james.wealth@students.mq.edu.au",
+    "id": "6a12c8c5112a5a5a39020c64",
+    "slug": "white-browed-scrubwren",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-Tank-Eldest.git",
+    "description": "The Flying Turtle app is a mobile app designed to make ordering drinks from Flying Turtle vending machines fast, convenient, and enjoyable. Users can browse a wide selection of beverages, including la"
+  },
+  {
+    "name": "StuckSOS",
+    "owner": "Jayen Ashar",
+    "email": "jayen.ashar@mq.edu.au",
+    "id": "6a0a7f3e112a5a5a3901ca43",
+    "slug": "red-browed-finch",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-jayenashar",
+    "description": "StuckSOS lets students raise an emergency \"I'm stuck\" beacon (location-tagged), open a group chat with nearby helpers, and start a one-tap voice or video call. Built for COMP3130 S1 2026."
+  },
+  {
+    "name": "PinMapper",
+    "owner": "Jia Jen Queek",
+    "email": "jiajen.queek@students.mq.edu.au",
+    "id": "6a0e77f5112a5a5a3901def7",
+    "slug": "melon-headed-whale",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-QueekJJ-1",
+    "description": "Ever needed to visualise tens or even hundreds of locations across NSW, Australia on a map? PinMapper is the perfect app for you. Stop wasting time trying to figure out where everything is relative to"
+  },
+  {
+    "name": "CampusSwap",
+    "owner": "Joseph Bugeja",
+    "email": "joseph.bugeja@students.mq.edu.au",
+    "id": "6a12ac31112a5a5a390206c0",
+    "slug": "lesser-noddy",
+    "hasApk": false,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-Joseph-Bugeja",
+    "description": "CampusSwap is a Flutter mobile marketplace app designed specifically for university students to buy, sell, or swap items used around campus. The app focuses on items that students commonly use on camp"
+  },
+  {
+    "name": "MQEats",
+    "owner": "Joshua Kirby",
+    "email": "joshua.kirby1@students.mq.edu.au",
+    "id": "6a11760e112a5a5a3901f32c",
+    "slug": "oriental-honey-buzzard",
+    "hasApk": false,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-joshmkirby",
+    "description": "Pre-order your meals from campus vendors during class so you don't have to wait in line."
+  },
+  {
+    "name": "Zanzo",
+    "owner": "Jun Kok",
+    "email": "jun.kok2@students.mq.edu.au",
+    "id": "6a0edec6112a5a5a3901e28a",
+    "slug": "flinders-funnelweb-spider",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-beluga-mq",
+    "description": "*\u201cZanzo is a map-first ephemeral notes app where browse, post, sync, expiry, and personalisation all serve one place-based story \u2014 backed by Firebase, offline queue, and a full test suite.\u201d*\n\nSharing "
+  },
+  {
+    "name": "MQ S2Hand",
+    "owner": "Khang How Ho",
+    "email": "khanghow.ho@students.mq.edu.au",
+    "id": "6a12e318112a5a5a39021047",
+    "slug": "australian-wood-duck",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-khanghow",
+    "description": "**Mq S2Hand:** is designed as a peer-to-peer marketplace to facilitate students from Macquarie University to purchase and sell used items including books, electronic, furniture, and others."
+  },
+  {
+    "name": "UniRoomie",
+    "owner": "Kuen To Li",
+    "email": "kuento.li@students.mq.edu.au",
+    "id": "6a1303ab112a5a5a39021b29",
+    "slug": "grey-backed-storm-petrel",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-seohyung-yang",
+    "description": "Australian university students looking for roommates to share rent.\n\nFind your perfect roommate with ease using our app designed specifically for university students in Australia! Whether you\u2019re looki"
+  },
+  {
+    "name": "CampusBite",
+    "owner": "Liam Hawkins",
+    "email": "liam.hawkins@students.mq.edu.au",
+    "id": "6a0c4003112a5a5a3901d304",
+    "slug": "grey-headed-albatross",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-Liamh50",
+    "description": "**CampusBite** is a new app which lets people studying, working or visiting Maquarie to get an insight on restaurants, cafes, bars and other food + drink locations within the Wallumattagal Campus."
+  },
+  {
+    "name": "Campus Marketplace",
+    "owner": "Lloyd Tan",
+    "email": "lloyd.tan@students.mq.edu.au",
+    "id": "6a11ab93112a5a5a3901f44d",
+    "slug": "horsfields-bushlark",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-tanlloyd",
+    "description": "Campus Marketplace is a student-focused marketplace app designed for university students to buy, sell, and trade second-hand items on campus. Users can browse listings, create their own listings, uplo"
+  },
+  {
+    "name": "ImageHub",
+    "owner": "Macy Hiu Man Leung",
+    "email": "macy.leung@students.mq.edu.au",
+    "id": "6a0f9116112a5a5a3901e6ed",
+    "slug": "common-kingfisher",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-munmunu",
+    "description": "ImageHub, an image sharing platform for users who not only want to post photos or images and share them with others, but also like and save them to see them again whenever they like."
+  },
+  {
+    "name": "TowAlert \u2013 Be first on scene",
+    "owner": "Mark Cai",
+    "email": "mark.cai@students.mq.edu.au",
+    "id": "6a12ba56112a5a5a3902089f",
+    "slug": "white-fronted-honeyeater",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-MarkCAus-1",
+    "description": "Every year, thousands of Australians are involved in road accidents, with over 1,200 road fatalities and tens of thousands of injuries recorded annually across the country. Traffic incidents and vehic"
+  },
+  {
+    "name": "Papa Joey's Pizza",
+    "owner": "Matthew Lu",
+    "email": "matthew.lu@students.mq.edu.au",
+    "id": "6a0e897b112a5a5a3901df80",
+    "slug": "northern-brushtail-possum",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-MatthewLuMqUni",
+    "description": "App for smaller local pizza shops. This is an example of one such shop using the app as their digital delivery medium to get orders"
+  },
+  {
+    "name": "Papa Joey's Pizza",
+    "owner": "Matthew Lu",
+    "email": "matthew.lu@students.mq.edu.au",
+    "id": "6a0e8976112a5a5a3901df7d",
+    "slug": "erect-crested-penguin",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-MatthewLuMqUni",
+    "description": "App for smaller local pizza shops. This is an example of one such shop using the app as their digital delivery medium to get orders"
+  },
+  {
+    "name": "Quarie Cards",
+    "owner": "Matthew Pennington",
+    "email": "matthew.pennington1@students.mq.edu.au",
+    "id": "6a12a48b112a5a5a39020555",
+    "slug": "eyrean-grasswren",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-MatthewP101",
+    "description": "Macquarie University Based Card Trading Application"
+  },
+  {
+    "name": "Quarie Cards",
+    "owner": "Matthew Pennington",
+    "email": "matthew.pennington1@students.mq.edu.au",
+    "id": "6a12a36f112a5a5a390204a1",
+    "slug": "purple-crowned-fairy-wren",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-MatthewP101",
+    "description": "Macquarie University Trading Card Application!!! A Bestiary like card trading app where you can make listings or look for other peoples trades! Show of your collection here!"
+  },
+  {
+    "name": "CampusFind",
+    "owner": "Max Kemmler",
+    "email": "max.kemmler@students.mq.edu.au",
+    "id": "6a130727112a5a5a39021c5e",
+    "slug": "southern-funnelweb-spider",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-Kemmler1.git",
+    "description": "CampusFind is a mobile app designed to help university students report and recover lost items on campus. Users can post lost or found items with descriptions, and GPS-tagged locations, making it easy "
+  },
+  {
+    "name": "MedTrack",
+    "owner": "Md Afsaruddin Nafim",
+    "email": "mdafsaruddin.nafim@students.mq.edu.au",
+    "id": "6a122296112a5a5a3901f9c3",
+    "slug": "eastern-osprey",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-Afsar28.git",
+    "description": "MedTrack helps you stay on top of your daily medications. After signing in, you can add medications with a name, dosage, time, start date, and optional end date. The home screen shows only today's act"
+  },
+  {
+    "name": "Game List",
+    "owner": "Michael Hopkins",
+    "email": "michael.hopkins@students.mq.edu.au",
+    "id": "6a0ffa8f112a5a5a3901e932",
+    "slug": "australian-spotted-crake",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-SpiredFormula",
+    "description": "Game List is a gamified to-do app that rewards you for completing tasks, but penalizes you for failing them."
+  },
+  {
+    "name": "Nearby Chat",
+    "owner": "Mohamad El Ali",
+    "email": "mohamad.elali1@students.mq.edu.au",
+    "id": "6a12f39d112a5a5a390214d8",
+    "slug": "goulds-petrel",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-moeykiller12",
+    "description": "NearBy app: an app that allows people to talk to others nearby.\n\nThis app has features such as sharing photos, videos, and audio recordings, and allows you to talk to others based on location, with a "
+  },
+  {
+    "name": "MQ Navigation",
+    "owner": "Mohammad Raouf Abedini",
+    "email": "mohammadraouf.abedini@students.mq.edu.au",
+    "id": "6a12b35f112a5a5a39020808",
+    "slug": "black-shouldered-kite",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-Raoof128-1",
+    "description": "**MQ Navigation**                                                                                                                                       &#x20;\n\n**Find your way around Macquarie \u2014 witho"
+  },
+  {
+    "name": "MQ Navigation",
+    "owner": "Mohammadpouya Alavi Naeini",
+    "email": "mohammadpouya.alavinaeini@students.mq.edu.au",
+    "id": "6a12dc25112a5a5a39020db2",
+    "slug": "lesser-frigatebird",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-po-uy-aa",
+    "description": "**MQ Navigation**\n\n**Find your way around Macquarie \u2014 without selling your data.**\n\n\n\n\n\nMQ Navigation is the ultimate campus companion for Macquarie University. Built with privacy at its core, it help"
+  },
+  {
+    "name": "PinNotes",
+    "owner": "Mohammed Ali",
+    "email": "mohammed.ali3@students.mq.edu.au",
+    "id": "6a126b5b112a5a5a3901fd62",
+    "slug": "blue-winged-kookaburra",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/final-application-3130",
+    "description": "A Flutter app where users write notes that remember where they were created. Each note is tagged with GPS coordinates and a reverse-geocoded place name at the moment it is saved. Notes are stored in C"
+  },
+  {
+    "name": "QuickMeet app",
+    "owner": "Munkhjin Lkhagvasuren",
+    "email": "munkhjin.lkhagvasuren@students.mq.edu.au",
+    "id": "6a12df41112a5a5a39020ee7",
+    "slug": "nabarlek",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-Mark909123-1",
+    "description": "**Primary users: regular organisers**\n\nThere are the people who run the same kind of event repeatedly, such as weekly volunteer session, a monthly gathering, seasonal road trips. The organisers of suc"
+  },
+  {
+    "name": "Campus Event Tracker App",
+    "owner": "Mushtaq Safie",
+    "email": "mushtaq.safie@students.mq.edu.au",
+    "id": "6a12bc52112a5a5a39020931",
+    "slug": "grey-honeyeater",
+    "hasApk": false,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-mushtaq234",
+    "description": "Campus Event Tracker is designed for students, staff, and community members who want a simple, mobile\u2011friendly way to stay on top of what\u2019s happening around campus. It gives you a clean workflow for c"
+  },
+  {
+    "name": "AniTrack",
+    "owner": "Nhat Anh Nguyen",
+    "email": "nhatanh.nguyen@students.mq.edu.au",
+    "id": "6a12e064112a5a5a39020f55",
+    "slug": "herbert-river-ringtail-possum",
+    "hasApk": false,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-Arthur2711",
+    "description": "AniTrack is a mobile application built with Flutter for anime and manga fans. Users can search for anime and manga using the AniList API, track their watching or reading progress, rate series, write p"
+  },
+  {
+    "name": "Progress Bar Tracker",
+    "owner": "Nicholas Cavanaugh",
+    "email": "nicholas.cavanaugh@students.mq.edu.au",
+    "id": "6a1255f1112a5a5a3901fb98",
+    "slug": "black-petrel",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-nicholascavanaugh02",
+    "description": "Progress Bar Tracker is a mobile app built with Flutter that lets you track the progress of anything you care about, whether that's books read, workouts completed, study sessions done, or personal goa"
+  },
+  {
+    "name": "UniEats MQ",
+    "owner": "Nowshin Karima Nokshi",
+    "email": "nowshinkarima.nokshi@students.mq.edu.au",
+    "id": "6a118b80112a5a5a3901f3b4",
+    "slug": "white-fronted-tern",
+    "hasApk": false,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-nnokshi",
+    "description": "UniEats MQ is a campus food ordering app for Macquarie University students. Browse food vendors on campus, explore menus by category, add items to a cart and place orders. Features include Firebase au"
+  },
+  {
+    "name": "Leaflet",
+    "owner": "Paola Reategui",
+    "email": "paola.reategui@mq.edu.au",
+    "id": "6a06a2c4112a5a5a3901c9e4",
+    "slug": "noisy-miner",
+    "hasApk": true,
+    "repo": "https://github.com/paolareategui/leafletApp",
+    "description": "Description here"
+  },
+  {
+    "name": "MQ Alert - Campus Issue Reporter",
+    "owner": "Paul Angelo Bancale",
+    "email": "paul.bancale@students.mq.edu.au",
+    "id": "6a11df5b112a5a5a3901f6fc",
+    "slug": "short-beaked-echidna",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-Tone-deaf.git",
+    "description": "Tired of messy benches, broken door, and missing toilet paper? MQ Alert lets MQ users report physical issues around campus. Think broken furniture, missing equipment, or dirty facilities. Users can ta"
+  },
+  {
+    "name": "material_recorder",
+    "owner": "Raiyan Rahman",
+    "email": "ashinlemist.rahman@students.mq.edu.au",
+    "id": "6a12ee5e112a5a5a39021164",
+    "slug": "grey-headed-robin",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-ashinlemq#",
+    "description": "**Material Recorder - UI as clean as your recordings.**\n\nMaterial Recorder is an absurdly simple but clean app to record audio files. You have one clear button to record, and your file is saved as soo"
+  },
+  {
+    "name": "TutorConnect",
+    "owner": "Sara Tavakoligolpaygani",
+    "email": "sara.tavakoligolpaygani@students.mq.edu.au",
+    "id": "6a11e61d112a5a5a3901f7f5",
+    "slug": "kakadu-pebble-mound-mouse",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-sara-tavakoli",
+    "description": "TutorConnect is a peer-tutoring platform that connects university students with qualified peer tutors. Students can browse and search tutors by subject, view detailed profiles with ratings and availab"
+  },
+  {
+    "name": "Campus Cart",
+    "owner": "Sein Park",
+    "email": "sein.park@students.mq.edu.au",
+    "id": "6a11c80f112a5a5a3901f52a",
+    "slug": "adelaide-trapdoor-spider",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-se1npark",
+    "description": "**Campus Cart** is **a student marketplace** for **Macquarie University's Wallumattagal Campus.**&#x20;\n\n**Browse, buy, sell, and swap everyday student items** such as textbooks, class notes, chargers"
+  },
+  {
+    "name": "Pet Care Tracker",
+    "owner": "Seohyung Yang",
+    "email": "seohyung.yang@students.mq.edu.au",
+    "id": "6a0c653b112a5a5a3901d434",
+    "slug": "leaf-curling-spider",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-seohyung-yang",
+    "description": "Pet Care Tracker is a Flutter and Firebase mobile application designed to help pet owners manage their pets easily.\n\n\n\nUsers can create accounts, add pet profiles, upload pet photos, store care notes,"
+  },
+  {
+    "name": "AssignTracker",
+    "owner": "Simon Dwyer",
+    "email": "simon.dwyer1@students.mq.edu.au",
+    "id": "6a0d6f8a112a5a5a3901db59",
+    "slug": "herberts-rock-wallaby",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-sdwyersec.git",
+    "description": "AssignTrack is designed to help students organise, track, and complete their studies. AssignTrack gives you a clean, distraction-free space to manage everything in one place.\n\nThe app lets you create "
+  },
+  {
+    "name": "UniMarket",
+    "owner": "Sogol Hosseini",
+    "email": "sogol.hosseini@students.mq.edu.au",
+    "id": "6a0d5810112a5a5a3901d95f",
+    "slug": "mottled-petrel",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-SogolHosseini-1.git",
+    "description": "UniMarket is a campus marketplace app designed for university students to buy and sell second-hand items including textbooks, furniture, electronics, and clothing. Students can create listings with ph"
+  },
+  {
+    "name": "ChronoSnap",
+    "owner": "Sua Kim",
+    "email": "sua.kim@students.mq.edu.au",
+    "id": "6a0d3754112a5a5a3901d793",
+    "slug": "fairy-tern",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-SuaKim48493457.git",
+    "description": "***ChronoSnap*** is a personal photo memory app built with Flutter and Firebase. The app was designed to give users a simple space to store important memories and revisit them later.\n\nUnlike a regular"
+  },
+  {
+    "name": "PocketLog",
+    "owner": "Swapnil Barua",
+    "email": "swapnil.barua@students.mq.edu.au",
+    "id": "6a1033e7112a5a5a3901ec4f",
+    "slug": "huttons-shearwater",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-SwapnilBarua-02-1.git",
+    "description": "Log anything, anywhere, anytime. PocketLog is a personal daily logging app built with Flutter and Firebase. The idea is simple \u2014 life happens fast and we forget things. PocketLog gives you a clean, sa"
+  },
+  {
+    "name": "CampusCart",
+    "owner": "Tanvi Prakash",
+    "email": "tanvi.prakash@students.mq.edu.au",
+    "id": "6a12fa40112a5a5a390217c4",
+    "slug": "pale-vented-bush-hen",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-tanviprakash.git",
+    "description": "CampusCart is a student-focused marketplace app designed to make buying and selling campus essentials easier, faster, and more affordable. Users can browse listings for textbooks, electronics, station"
+  },
+  {
+    "name": "DormDeals",
+    "owner": "Tanvir Singh Tanvir Singh",
+    "email": "tanvir.singh1@students.mq.edu.au",
+    "id": "6a0d3fb9112a5a5a3901d860",
+    "slug": "white-throated-nightjar",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-TanvirS-07",
+    "description": "DormDeals is a campus-only marketplace app that helps university students buy and sell useful study and university-related items. Instead of using a large public marketplace with unserious buyers and "
+  },
+  {
+    "name": "DormDeals",
+    "owner": "Tanvir Singh Tanvir Singh",
+    "email": "tanvir.singh1@students.mq.edu.au",
+    "id": "6a0d3fb8112a5a5a3901d859",
+    "slug": "terek-sandpiper",
+    "hasApk": false,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-TanvirS-07",
+    "description": "DormDeals is a campus-only marketplace app that helps university students buy and sell useful study and university-related items. Instead of using a large public marketplace with unserious buyers and "
+  },
+  {
+    "name": "CampusFind",
+    "owner": "Tanya Do",
+    "email": "tanya.do1@students.mq.edu.au",
+    "id": "6a12fff9112a5a5a39021a1a",
+    "slug": "lord-howe-long-eared-bat",
+    "hasApk": false,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-tando1",
+    "description": "CampusFind is a flutter mobile application created to help students report, search and manage lost and found items around campus. The app lets users make listings for items they have lost or found, at"
+  },
+  {
+    "name": "second life",
+    "owner": "Thanh Tra Tran",
+    "email": "thanhtra.tran@students.mq.edu.au",
+    "id": "6a12a35f112a5a5a3902049a",
+    "slug": "kaluta",
+    "hasApk": false,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-camellionn",
+    "description": "second life is a Flutter-based mobile marketplace where university students and young adults can buy and sell second-hand clothing. The app lets sellers list items in under a minute by uploading a pic"
+  },
+  {
+    "name": "CampusSwap",
+    "owner": "Tien Anh Nguyen",
+    "email": "tienanh.nguyen1@students.mq.edu.au",
+    "id": "6a131243112a5a5a39021dd8",
+    "slug": "singing-starling",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-PeterNg52-1.git",
+    "description": "CampusSwap is a mobile marketplace app built for university students to buy and sell second-hand items within their campus community. Whether it's a textbook you no longer need, a desk chair from last"
+  },
+  {
+    "name": "CampusHub",
+    "owner": "Vacha Patel",
+    "email": "vacha.patel@students.mq.edu.au",
+    "id": "6a0e9d81112a5a5a3901e057",
+    "slug": "godmans-rock-wallaby",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-Vacha11",
+    "description": "CampusHub is a student-focused mobile marketplace built using Flutter and Firebase. It allows university students to buy and sell items or offer services within their campus community in a simple, sec"
+  },
+  {
+    "name": "My Restaurants",
+    "owner": "Vuthy Vongvisal Sambath",
+    "email": "vuthyvongvisal.sambath@students.mq.edu.au",
+    "id": "6a12aab3112a5a5a39020668",
+    "slug": "vanuatu-petrel",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-Visalll.git",
+    "description": "**Your personal food memory \u2014 save, rate, and rediscover every restaurant worth remembering**"
+  },
+  {
+    "name": "Textbook Resale",
+    "owner": "William Milne",
+    "email": "william.milne@students.mq.edu.au",
+    "id": "6a12f9fe112a5a5a390217b2",
+    "slug": "common-sheath-tailed-bat",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-Will-Milne-MQ-3",
+    "description": "This app allows students to list their old textbooks online for new students who need them to purchase."
+  },
+  {
+    "name": "Read OM",
+    "owner": "Xander James",
+    "email": "xander.james@students.mq.edu.au",
+    "id": "6a1302cb112a5a5a39021afd",
+    "slug": "green-junglefowl",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-sqrtxander",
+    "description": "Read OM is a simple, book review app for everyday readers. Explore books, share your thoughts, and find what to read next without the clutter."
+  },
+  {
+    "name": "Luma",
+    "owner": "Yelyzaveta Prokofieva",
+    "email": "yelyzaveta.prokofieva@students.mq.edu.au",
+    "id": "6a12c4db112a5a5a39020bd0",
+    "slug": "yellowhammer",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-YelyzavetaProkofieva.git",
+    "description": "Luma (stands for Light Your Moment) is a mobile app for people who want to plan creative dates and remember meaningful memories that they have created. The app is build around the idea of precious mom"
+  },
+  {
+    "name": "Eco Rewards Hub",
+    "owner": "Yufan Wang",
+    "email": "yufan.wang3@students.mq.edu.au",
+    "id": "6a130161112a5a5a39021a74",
+    "slug": "magnificent-riflebird",
+    "hasApk": false,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-Yufan-Wang",
+    "description": "Eco Rewards Hub is a Flutter app that rewards you for taking eco-friendly actions. Log daily climate-positive habits \u2014 cycling, plant-based meals, reducing energy use \u2014 earn Bronze, Silver, or Gold st"
+  },
+  {
+    "name": "Campus Marketplace",
+    "owner": "Ziyi Liu",
+    "email": "ziyi.liu5@students.mq.edu.au",
+    "id": "6a0c980d112a5a5a3901d4d4",
+    "slug": "stripe-faced-dunnart",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-ZiyiLiu7.git",
+    "description": "Campus Marketplace is a mobile marketplace application built using Flutter and Firebase. The app is designed for students who want a simple and modern platform to trade second-hand items such as textb"
+  }
+];
+
+    let filter = 'all';
+    let query = '';
+
+    function filtered() {
+      return APPS.filter(app => {
+        const matchFilter = filter === 'all' || (filter === 'apk' && app.hasApk) || (filter === 'no-apk' && !app.hasApk);
+        const q = query.toLowerCase();
+        const matchQuery = !q || app.name.toLowerCase().includes(q) || app.owner.toLowerCase().includes(q) || app.email.toLowerCase().includes(q);
+        return matchFilter && matchQuery;
+      });
+    }
+
+    function render() {
+      const results = filtered();
+      const tbody = document.getElementById('table-body');
+      const noResults = document.getElementById('no-results');
+      document.getElementById('count').textContent = results.length;
+
+      if (results.length === 0) {
+        tbody.innerHTML = '';
+        noResults.style.display = 'block';
+        return;
+      }
+
+      noResults.style.display = 'none';
+      tbody.innerHTML = results.map((app, i) => `
+        <tr style="animation-delay: ${i * 0.02}s">
+          <td>${i + 1}</td>
+          <td><div class="app-name">${app.name || '—'}</div></td>
+          <td>
+            <div class="owner-name">${app.owner || '—'}</div>
+            <div class="owner-email">${app.email || ''}</div>
+          </td>
+          <td>${app.hasApk ? '<span class="apk-yes">YES</span>' : '<span class="apk-no">NO</span>'}</td>
+          <td>
+            <a class="repo-link" href="http://3.104.146.108/app/${app.id}" target="_blank">${app.id.slice(-8)} ↗</a>
+          </td>
+          <td>${app.repo ? `<a class="repo-link" href="${app.repo}" target="_blank">GitHub ↗</a>` : '—'}</td>
+        </tr>
+      `).join('');
+    }
+
+    function copyId(btn, id) {
+      navigator.clipboard.writeText(id);
+      btn.textContent = 'copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 1500);
+    }
+
+    document.getElementById('search').addEventListener('input', e => {
+      query = e.target.value;
+      render();
+    });
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        filter = btn.dataset.filter;
+        render();
+      });
+    });
+
+    render();
+  </script>
+</body>
+</html>
