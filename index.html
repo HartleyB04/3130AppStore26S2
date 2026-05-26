@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+ 
     :root {
       --bg: #0d0f14;
       --surface: #13161d;
@@ -19,21 +19,21 @@
       --muted: #6b7280;
       --card-bg: #161921;
     }
-
+ 
     body {
       background: var(--bg);
       color: var(--text);
       font-family: 'DM Sans', sans-serif;
       min-height: 100vh;
     }
-
+ 
     header {
       border-bottom: 1px solid var(--border);
       padding: 2.5rem 2rem 2rem;
       position: relative;
       overflow: hidden;
     }
-
+ 
     header::before {
       content: '';
       position: absolute;
@@ -42,7 +42,7 @@
       background: radial-gradient(circle, rgba(200,168,75,0.12) 0%, transparent 70%);
       pointer-events: none;
     }
-
+ 
     header::after {
       content: '';
       position: absolute;
@@ -51,7 +51,7 @@
       background: radial-gradient(circle, rgba(224,92,58,0.08) 0%, transparent 70%);
       pointer-events: none;
     }
-
+ 
     .header-label {
       font-family: 'DM Mono', monospace;
       font-size: 0.7rem;
@@ -60,7 +60,7 @@
       text-transform: uppercase;
       margin-bottom: 0.5rem;
     }
-
+ 
     h1 {
       font-family: 'Syne', sans-serif;
       font-size: clamp(2rem, 5vw, 3.5rem);
@@ -68,16 +68,16 @@
       line-height: 1;
       letter-spacing: -0.02em;
     }
-
+ 
     h1 span { color: var(--accent); }
-
+ 
     .header-meta {
       margin-top: 0.75rem;
       font-family: 'DM Mono', monospace;
       font-size: 0.75rem;
       color: var(--muted);
     }
-
+ 
     .controls {
       padding: 1.5rem 2rem;
       display: flex;
@@ -91,14 +91,14 @@
       backdrop-filter: blur(8px);
       z-index: 10;
     }
-
+ 
     .search-wrap {
       position: relative;
       flex: 1;
       min-width: 200px;
       max-width: 400px;
     }
-
+ 
     .search-wrap svg {
       position: absolute;
       left: 0.75rem;
@@ -107,7 +107,7 @@
       color: var(--muted);
       pointer-events: none;
     }
-
+ 
     input[type="text"] {
       width: 100%;
       background: var(--surface);
@@ -120,15 +120,15 @@
       outline: none;
       transition: border-color 0.15s;
     }
-
+ 
     input[type="text"]:focus { border-color: var(--accent); }
     input[type="text"]::placeholder { color: var(--muted); }
-
+ 
     .filter-btns {
       display: flex;
       gap: 0.5rem;
     }
-
+ 
     .filter-btn {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -141,10 +141,10 @@
       cursor: pointer;
       transition: all 0.15s;
     }
-
+ 
     .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
     .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #000; font-weight: 500; }
-
+ 
     .stats {
       font-family: 'DM Mono', monospace;
       font-size: 0.72rem;
@@ -152,18 +152,18 @@
       margin-left: auto;
       white-space: nowrap;
     }
-
+ 
     .stats span { color: var(--accent); }
-
+ 
     main {
       padding: 1.5rem 2rem;
     }
-
+ 
     table {
       width: 100%;
       border-collapse: collapse;
     }
-
+ 
     thead th {
       font-family: 'DM Mono', monospace;
       font-size: 0.65rem;
@@ -174,28 +174,28 @@
       padding: 0 1rem 0.75rem;
       border-bottom: 1px solid var(--border);
     }
-
+ 
     thead th:first-child { padding-left: 0; width: 2.5rem; }
-
+ 
     tbody tr {
       border-bottom: 1px solid var(--border);
       transition: background 0.1s;
       animation: fadeIn 0.3s ease both;
     }
-
+ 
     tbody tr:hover { background: var(--card-bg); }
-
+ 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(4px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
+ 
     td {
       padding: 0.9rem 1rem;
       font-size: 0.875rem;
       vertical-align: middle;
     }
-
+ 
     td:first-child {
       padding-left: 0;
       font-family: 'DM Mono', monospace;
@@ -203,12 +203,12 @@
       color: var(--muted);
       width: 2.5rem;
     }
-
+ 
     .app-name {
       font-weight: 500;
       color: var(--text);
     }
-
+ 
     .owner-name { color: var(--text); }
     .owner-email {
       font-family: 'DM Mono', monospace;
@@ -216,7 +216,7 @@
       color: var(--muted);
       margin-top: 0.15rem;
     }
-
+ 
     .apk-yes {
       display: inline-block;
       background: rgba(74,188,120,0.12);
@@ -228,7 +228,7 @@
       font-size: 0.65rem;
       letter-spacing: 0.05em;
     }
-
+ 
     .apk-no {
       display: inline-block;
       background: rgba(224,92,58,0.1);
@@ -240,13 +240,13 @@
       font-size: 0.65rem;
       letter-spacing: 0.05em;
     }
-
+ 
     .id-cell {
       font-family: 'DM Mono', monospace;
       font-size: 0.7rem;
       color: var(--muted);
     }
-
+ 
     .copy-btn {
       background: none;
       border: 1px solid var(--border);
@@ -259,19 +259,19 @@
       margin-left: 0.4rem;
       transition: all 0.15s;
     }
-
+ 
     .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
     .copy-btn.copied { border-color: #4abc78; color: #4abc78; }
-
+ 
     .repo-link {
       color: var(--accent);
       text-decoration: none;
       font-family: 'DM Mono', monospace;
       font-size: 0.7rem;
     }
-
+ 
     .repo-link:hover { text-decoration: underline; }
-
+ 
     .no-results {
       text-align: center;
       padding: 4rem;
@@ -279,7 +279,7 @@
       font-family: 'DM Mono', monospace;
       font-size: 0.85rem;
     }
-
+ 
     footer {
       text-align: center;
       padding: 2rem;
@@ -292,11 +292,11 @@
 </head>
 <body>
   <header>
-    <div class="header-label">Macquarie University · COMP3130 · S1 2026</div>
+    <div class="header-label">COMP3130 · S1 2026 · Macquaire University (no affiliation)</div>
     <h1>App <span>Store</span></h1>
-    <div class="header-meta">Generated 26 May 2026 19:31 · 86 submissions</div>
+    <div class="header-meta">Generated 26 May 2026 20:02 · 86 submissions</div>
   </header>
-
+ 
   <div class="controls">
     <div class="search-wrap">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -311,7 +311,7 @@
     </div>
     <div class="stats">Showing <span id="count">86</span> of 86</div>
   </div>
-
+ 
   <main>
     <table>
       <thead>
@@ -328,9 +328,9 @@
     </table>
     <div class="no-results" id="no-results" style="display:none">No apps match your search.</div>
   </main>
-
-  <footer>COMP3130 Mobile Application Development · Macquarie University</footer>
-
+ 
+  <footer>Unofficial student-made directory · Not affiliated with or endorsed by Macquarie University</footer>
+ 
   <script>
     const APPS = [
   {
@@ -737,8 +737,8 @@
     "name": "Papa Joey's Pizza",
     "owner": "Matthew Lu",
     "email": "matthew.lu@students.mq.edu.au",
-    "id": "6a0e8976112a5a5a3901df7d",
-    "slug": "erect-crested-penguin",
+    "id": "6a0e897b112a5a5a3901df80",
+    "slug": "northern-brushtail-possum",
     "hasApk": true,
     "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-MatthewLuMqUni",
     "description": "App for smaller local pizza shops. This is an example of one such shop using the app as their digital delivery medium to get orders"
@@ -747,21 +747,11 @@
     "name": "Papa Joey's Pizza",
     "owner": "Matthew Lu",
     "email": "matthew.lu@students.mq.edu.au",
-    "id": "6a0e897b112a5a5a3901df80",
-    "slug": "northern-brushtail-possum",
+    "id": "6a0e8976112a5a5a3901df7d",
+    "slug": "erect-crested-penguin",
     "hasApk": true,
     "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-MatthewLuMqUni",
     "description": "App for smaller local pizza shops. This is an example of one such shop using the app as their digital delivery medium to get orders"
-  },
-  {
-    "name": "Quarie Cards",
-    "owner": "Matthew Pennington",
-    "email": "matthew.pennington1@students.mq.edu.au",
-    "id": "6a12a36f112a5a5a390204a1",
-    "slug": "purple-crowned-fairy-wren",
-    "hasApk": true,
-    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-MatthewP101",
-    "description": "Macquarie University Trading Card Application!!! A Bestiary like card trading app where you can make listings or look for other peoples trades! Show of your collection here!"
   },
   {
     "name": "Quarie Cards",
@@ -772,6 +762,16 @@
     "hasApk": true,
     "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-MatthewP101",
     "description": "Macquarie University Based Card Trading Application"
+  },
+  {
+    "name": "Quarie Cards",
+    "owner": "Matthew Pennington",
+    "email": "matthew.pennington1@students.mq.edu.au",
+    "id": "6a12a36f112a5a5a390204a1",
+    "slug": "purple-crowned-fairy-wren",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-MatthewP101",
+    "description": "Macquarie University Trading Card Application!!! A Bestiary like card trading app where you can make listings or look for other peoples trades! Show of your collection here!"
   },
   {
     "name": "CampusFind",
@@ -939,7 +939,7 @@
     "email": "paul.vo@students.mq.edu.au",
     "id": "6a1567a2112a5a5a39023c95",
     "slug": "striped-possum",
-    "hasApk": false,
+    "hasApk": true,
     "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-PaulVo97",
     "description": "I Spy Used Cars is an application that I have developed with Flutter, which allows users to browse and sell used cars all from one platform. The motivation for creating such an application stems from "
   },
@@ -1194,10 +1194,10 @@
     "description": "Campus Marketplace is a mobile marketplace application built using Flutter and Firebase. The app is designed for students who want a simple and modern platform to trade second-hand items such as textb"
   }
 ];
-
+ 
     let filter = 'all';
     let query = '';
-
+ 
     function filtered() {
       return APPS.filter(app => {
         const matchFilter = filter === 'all' || (filter === 'apk' && app.hasApk) || (filter === 'no-apk' && !app.hasApk);
@@ -1206,19 +1206,19 @@
         return matchFilter && matchQuery;
       });
     }
-
+ 
     function render() {
       const results = filtered();
       const tbody = document.getElementById('table-body');
       const noResults = document.getElementById('no-results');
       document.getElementById('count').textContent = results.length;
-
+ 
       if (results.length === 0) {
         tbody.innerHTML = '';
         noResults.style.display = 'block';
         return;
       }
-
+ 
       noResults.style.display = 'none';
       tbody.innerHTML = results.map((app, i) => `
         <tr style="animation-delay: ${i * 0.02}s">
@@ -1236,19 +1236,19 @@
         </tr>
       `).join('');
     }
-
+ 
     function copyId(btn, id) {
       navigator.clipboard.writeText(id);
       btn.textContent = 'copied!';
       btn.classList.add('copied');
       setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 1500);
     }
-
+ 
     document.getElementById('search').addEventListener('input', e => {
       query = e.target.value;
       render();
     });
-
+ 
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -1257,7 +1257,7 @@
         render();
       });
     });
-
+ 
     render();
   </script>
 </body>
