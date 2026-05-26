@@ -14,38 +14,52 @@ The official app store only returns a random subset of ~10 listings per request,
 
 ## Usage
 
-### 1. Set up the environment
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/hartleyB04/3130AppStore26S2.git
+cd 3130AppStore26S2
+```
+
+### 2. Set up the environment
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate
-pip install requests
+pip install -r requirements.txt
 ```
 
-### 2. Add your token
+### 3. Get your Bearer token
 
-Open `fetch_apps.py` and replace `YOUR_TOKEN_HERE` with a valid Bearer token from the app store API.
+1. Go to the COMP3130 App Store and log in
+2. Open DevTools (`Cmd+Option+I` on Mac, `F12` on Windows)
+3. Go to the **Network** tab
+4. Refresh the page
+5. Find the request to `api/app`
+6. Click it and open the **Headers** tab
+7. Copy the value after `Authorization: Bearer` — this is your token
 
-### 3. Run the script
+### 4. Add your token
+
+Create a `.env` file in the same folder as the script:
+
+```
+COMP3130_TOKEN=your_token_here
+```
+
+> Never commit this file — it's already in `.gitignore`.
+
+### 5. Run the script
 
 ```bash
-python3 fetch_apps.py
+python3 fetch_app.py
 ```
 
 The script hammers the API endpoint and deduplicates results by ID, stopping automatically once no new apps have been found for 10 consecutive requests. An `index.html` is generated in the current directory.
-
-### 4. Push to GitHub Pages
-
-```bash
-git add index.html
-git commit -m "update listings"
-git push
-```
-
-The site will be live at `https://yourusername.github.io/repo-name`.
 
 ## Notes
 
 - Tokens expire after ~7 days — you'll need to refresh it from the app store before re-running
 - Re-run after the submission deadline to capture any late submissions
 - Listings without an APK are flagged in the table
+- Please do not abuse get requests
