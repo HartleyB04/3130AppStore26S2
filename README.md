@@ -4,6 +4,8 @@ An unofficial student-made directory of app submissions for COMP3130 Mobile Appl
 
 > **Not affiliated with or endorsed by Macquarie University.**
 
+**Live site:** https://hartleyB04.github.io/3130AppStore26S2
+
 ## What it does
 
 The official app store only returns a random subset of ~10 listings per request, making it hard to find a specific student's submission. This directory scrapes all available listings and presents them in a searchable, filterable table with direct links to each app's listing page.
