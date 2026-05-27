@@ -14,7 +14,7 @@ The official app store only returns a random subset of ~10 listings per request,
 - Filter by APK availability
 - Direct links to each listing and GitHub repo
 
-## Usage
+## Setup
 
 ### 1. Clone the repo
 
@@ -23,7 +23,7 @@ git clone https://github.com/hartleyB04/3130AppStore26S2.git
 cd 3130AppStore26S2
 ```
 
-### 2. Set up the environment
+### 2. Create a virtual environment and install dependencies
 
 ```bash
 python3 -m venv venv
@@ -39,48 +39,67 @@ pip install -r requirements.txt
 4. Refresh the page
 5. Find the request to `api/app`
 6. Click it and open the **Headers** tab
-7. Copy the value after `Authorization: Bearer` — this is your token
+7. Copy the value after `Authorization: Bearer`
 
-### 4. Add your token
-
-Create a `.env` file in the same folder as the script:
+### 4. Create a `.env` file
 
 ```
 COMP3130_TOKEN=your_token_here
 ```
 
-> Never commit this file — it's already in `.gitignore`.
+> Never commit or share this file — it's already in `.gitignore`
 
-### 5. Run the script
+---
+
+## Scripts
+
+### `fetch_app.py` — builds the searchable table
 
 ```bash
 python3 fetch_app.py
 ```
 
-The script hammers the API endpoint and deduplicates results by ID, stopping automatically once no new apps have been found for 10 consecutive requests. An `index.html` is generated in the current directory.
+Scrapes all app listings and generates `index.html`. Run this first. Re-run after the submission deadline to catch late submissions.
+
+### `fetch_full.py` — builds the enhanced gallery
+
+```bash
+python3 fetch_full.py
+```
+
+Fetches full details for every app, downloads all screenshots into `comp3130-screenshots/`, and generates `enhanced.html`. Requires `index.html` to exist first.
+
+### `download_apks.py` — downloads all APKs
+
+```bash
+python3 download_apks.py
+```
+
+Downloads all APKs into `comp3130-apks/`. Requires `index.html` to exist first. Skips files already downloaded.
+
+---
+
+## Viewing locally
+
+Open `index.html` or `enhanced.html` with Live Server in VS Code, or run:
+
+```bash
+python3 -m http.server 8080
+```
+
+Then go to `http://localhost:8080` or `http://localhost:8080/enhanced.html`.
+
+Anyone on the same network can access it at `http://your-ip:8080`. Find your IP with:
+
+```bash
+ipconfig getifaddr en0
+```
+
+> APK downloads and screenshot previews only work when serving locally — they are not available on the GitHub Pages site.
+
+---
 
 ## Notes
 
-- Tokens expire after ~7 days — you'll need to refresh it from the app store before re-running
-- Re-run after the submission deadline to capture any late submissions
-- Listings without an APK are flagged in the table
-
-## Local APK Server
-
-To serve APKs locally over the network:
-
-1. Download the APKs first:
-```bash
-   python3 download_apks.py
-```
-2. Start the local server from the `App Store` folder:
-```bash
-   python3 -m http.server 8080
-```
-3. Find your local IP:
-```bash
-   ipconfig getifaddr en0
-```
-4. Anyone on the same network can go to `http://your-ip:8080` and use the directory — the ⬇ APK buttons will work as direct downloads.
-
-> Download buttons only work when the local server is running. They will not work on the GitHub Pages site.
+- `comp3130-screenshots/` and `comp3130-apks/` are gitignored — local only
+- The GitHub Pages site serves `index.html` only (table view, no screenshots or APK downloads)

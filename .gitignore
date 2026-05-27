@@ -1,3 +1,5 @@
 .DS_Store
 .env
 comp3130-apks/
+comp3130-screenshots/
+full_data.json
