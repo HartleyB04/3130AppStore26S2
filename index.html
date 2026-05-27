@@ -271,6 +271,24 @@
     .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
     .copy-btn.copied { border-color: #4abc78; color: #4abc78; }
 
+    .download-btn {
+      display: inline-block;
+      background: rgba(200,168,75,0.1);
+      color: var(--accent);
+      border: 1px solid rgba(200,168,75,0.3);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+
+    .download-btn:hover {
+      background: rgba(200,168,75,0.2);
+      border-color: var(--accent);
+    }
+
     .repo-link {
       color: var(--accent);
       text-decoration: none;
@@ -302,7 +320,7 @@
   <header>
     <div class="header-label">COMP3130 · S1 2026 · Unofficial</div>
     <h1>App <span>Store</span></h1>
-    <div class="header-meta">Generated 28 May 2026 00:36 · 124 submissions</div>
+    <div class="header-meta">Generated 28 May 2026 01:07 · 127 submissions</div>
   </header>
 
   <div class="controls">
@@ -317,7 +335,7 @@
       <button class="filter-btn" data-filter="apk">APK Only</button>
       <button class="filter-btn" data-filter="no-apk">No APK</button>
     </div>
-    <div class="stats">Showing <span id="count">124</span> of 124</div>
+    <div class="stats">Showing <span id="count">127</span> of 127</div>
   </div>
 
   <main>
@@ -329,6 +347,7 @@
           <th>Owner</th>
           <th>APK</th>
           <th>Listing</th>
+          <th>Download</th>
           <th>Repo</th>
         </tr>
       </thead>
@@ -532,6 +551,26 @@
     "description": "**Choo Choo, It's Burger Time! \ud83d\ude82\ud83d\ude82\ud83d\ude82**\n\nThe Burger Train App is designed primarily for android users to browse our restaurants' menu and order their favourite items."
   },
   {
+    "name": "SportsJam",
+    "owner": "Christopher Eaton",
+    "email": "christopher.eaton@students.mq.edu.au",
+    "id": "6a1702e4112a5a5a39026fbd",
+    "slug": "grey-headed-honeyeater",
+    "hasApk": false,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-chrisyutaroeaton",
+    "description": "Welcome to the new premier app SportsJam.&#x20;\n\n\n\n\n*\\*Pick a sport, find players, and win your way to the top!\\**\n\n\n\n\nSportsJam is a social sports app designed to help university students find other "
+  },
+  {
+    "name": "SportsJam",
+    "owner": "Christopher Eaton",
+    "email": "christopher.eaton@students.mq.edu.au",
+    "id": "6a1702e4112a5a5a39026fc0",
+    "slug": "australasian-shoveler",
+    "hasApk": false,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-chrisyutaroeaton",
+    "description": "Welcome to the new premier app SportsJam.&#x20;\n\n\n\n\n*\\*Pick a sport, find players, and win your way to the top!\\**\n\n\n\n\nSportsJam is a social sports app designed to help university students find other "
+  },
+  {
     "name": "Cupcake Delight",
     "owner": "Chui Lin Luk",
     "email": "chuilin.luk@students.mq.edu.au",
@@ -710,6 +749,16 @@
     "hasApk": true,
     "repo": "https://github.com/ZaneTran05/comp3130-campus-market.git",
     "description": "Campus Market is a marketplace app for Macquarie University students and staff to buy and sell campus-related items such as textbooks, electronics, stationery, clothing, and other student essentials.\n"
+  },
+  {
+    "name": "Settled",
+    "owner": "Jack Perkovich",
+    "email": "jack.perkovich@students.mq.edu.au",
+    "id": "6a17033f112a5a5a39026fcb",
+    "slug": "great-knot",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-deferring",
+    "description": "Settled is a recipe, shopping list, and food logging app designed to keep meal planning simple.\n\nUsers can save recipes, organise them into collections, add ingredients and method steps, upload recipe"
   },
   {
     "name": "Flying Turtle",
@@ -945,8 +994,8 @@
     "name": "Papa Joey's Pizza",
     "owner": "Matthew Lu",
     "email": "matthew.lu@students.mq.edu.au",
-    "id": "6a0e897b112a5a5a3901df80",
-    "slug": "northern-brushtail-possum",
+    "id": "6a0e8976112a5a5a3901df7d",
+    "slug": "erect-crested-penguin",
     "hasApk": true,
     "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-MatthewLuMqUni",
     "description": "App for smaller local pizza shops. This is an example of one such shop using the app as their digital delivery medium to get orders"
@@ -955,8 +1004,8 @@
     "name": "Papa Joey's Pizza",
     "owner": "Matthew Lu",
     "email": "matthew.lu@students.mq.edu.au",
-    "id": "6a0e8976112a5a5a3901df7d",
-    "slug": "erect-crested-penguin",
+    "id": "6a0e897b112a5a5a3901df80",
+    "slug": "northern-brushtail-possum",
     "hasApk": true,
     "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-MatthewLuMqUni",
     "description": "App for smaller local pizza shops. This is an example of one such shop using the app as their digital delivery medium to get orders"
@@ -975,21 +1024,21 @@
     "name": "Quarie Cards",
     "owner": "Matthew Pennington",
     "email": "matthew.pennington1@students.mq.edu.au",
-    "id": "6a12a36f112a5a5a390204a1",
-    "slug": "purple-crowned-fairy-wren",
-    "hasApk": true,
-    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-MatthewP101",
-    "description": "Macquarie University Trading Card Application!!! A Bestiary like card trading app where you can make listings or look for other peoples trades! Show of your collection here!"
-  },
-  {
-    "name": "Quarie Cards",
-    "owner": "Matthew Pennington",
-    "email": "matthew.pennington1@students.mq.edu.au",
     "id": "6a12a48b112a5a5a39020555",
     "slug": "eyrean-grasswren",
     "hasApk": true,
     "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-MatthewP101",
     "description": "Macquarie University Based Card Trading Application"
+  },
+  {
+    "name": "Quarie Cards",
+    "owner": "Matthew Pennington",
+    "email": "matthew.pennington1@students.mq.edu.au",
+    "id": "6a12a36f112a5a5a390204a1",
+    "slug": "purple-crowned-fairy-wren",
+    "hasApk": true,
+    "repo": "https://github.com/MQ-COMP3130/mobile-application-development-project-50-MatthewP101",
+    "description": "Macquarie University Trading Card Application!!! A Bestiary like card trading app where you can make listings or look for other peoples trades! Show of your collection here!"
   },
   {
     "name": "CampusFind",
@@ -1623,6 +1672,7 @@
           <td>
             <a class="repo-link" href="http://3.104.146.108/app/${app.id}" target="_blank">${app.id.slice(-8)} ↗</a>
           </td>
+          <td>${app.hasApk ? `<a class="download-btn" href="comp3130-apks/${app.slug}.apk" download>⬇ APK</a>` : '—'}</td>
           <td>${app.repo ? `<a class="repo-link" href="${app.repo}" target="_blank">GitHub ↗</a>` : '—'}</td>
         </tr>
       `).join('');

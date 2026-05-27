@@ -64,4 +64,23 @@ The script hammers the API endpoint and deduplicates results by ID, stopping aut
 - Tokens expire after ~7 days — you'll need to refresh it from the app store before re-running
 - Re-run after the submission deadline to capture any late submissions
 - Listings without an APK are flagged in the table
-- Please do not abuse get requests
+
+## Local APK Server
+
+To serve APKs locally over the network:
+
+1. Download the APKs first:
+```bash
+   python3 download_apks.py
+```
+2. Start the local server from the `App Store` folder:
+```bash
+   python3 -m http.server 8080
+```
+3. Find your local IP:
+```bash
+   ipconfig getifaddr en0
+```
+4. Anyone on the same network can go to `http://your-ip:8080` and use the directory — the ⬇ APK buttons will work as direct downloads.
+
+> Download buttons only work when the local server is running. They will not work on the GitHub Pages site.

@@ -335,6 +335,24 @@ html = f"""<!DOCTYPE html>
     .copy-btn:hover {{ border-color: var(--accent); color: var(--accent); }}
     .copy-btn.copied {{ border-color: #4abc78; color: #4abc78; }}
 
+    .download-btn {{
+      display: inline-block;
+      background: rgba(200,168,75,0.1);
+      color: var(--accent);
+      border: 1px solid rgba(200,168,75,0.3);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      text-decoration: none;
+      transition: all 0.15s;
+    }}
+
+    .download-btn:hover {{
+      background: rgba(200,168,75,0.2);
+      border-color: var(--accent);
+    }}
+
     .repo-link {{
       color: var(--accent);
       text-decoration: none;
@@ -393,6 +411,7 @@ html = f"""<!DOCTYPE html>
           <th>Owner</th>
           <th>APK</th>
           <th>Listing</th>
+          <th>Download</th>
           <th>Repo</th>
         </tr>
       </thead>
@@ -446,6 +465,7 @@ html = f"""<!DOCTYPE html>
           <td>
             <a class="repo-link" href="http://3.104.146.108/app/${{app.id}}" target="_blank">${{app.id.slice(-8)}} ↗</a>
           </td>
+          <td>${{app.hasApk ? `<a class="download-btn" href="comp3130-apks/${{app.slug}}.apk" download>⬇ APK</a>` : '—'}}</td>
           <td>${{app.repo ? `<a class="repo-link" href="${{app.repo}}" target="_blank">GitHub ↗</a>` : '—'}}</td>
         </tr>
       `).join('');
