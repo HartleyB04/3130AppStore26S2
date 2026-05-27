@@ -542,7 +542,7 @@ html = f"""<!DOCTYPE html>
       font-size: 0.7rem;
     }}
 
-    .modal-info {{ display: flex; flex-direction: column; gap: 1rem; }}
+    .modal-info {{ display: flex; flex-direction: column; gap: 1rem; min-width: 0; overflow-wrap: break-word; }}
 
     .modal-field label {{
       font-family: 'DM Mono', monospace;
