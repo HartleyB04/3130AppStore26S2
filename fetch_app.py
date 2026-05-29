@@ -142,6 +142,29 @@ html = f"""<!DOCTYPE html>
       color: var(--muted);
     }}
 
+    .header-links {{
+      margin-top: 1rem;
+    }}
+
+    .enhanced-btn {{
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid rgba(200,168,75,0.3);
+      background: rgba(200,168,75,0.08);
+      padding: 0.55rem 0.9rem;
+      border-radius: 6px;
+      transition: all 0.15s;
+    }}
+
+    .enhanced-btn:hover {{
+      background: rgba(200,168,75,0.16);
+      border-color: var(--accent);
+    }}
+
     .controls {{
       padding: 1.5rem 2rem;
       display: flex;
